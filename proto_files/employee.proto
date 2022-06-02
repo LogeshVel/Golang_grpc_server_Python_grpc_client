@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+option go_package = "proto/emp";
+
+message Contact{
+    string home_addr = 1;
+    string mob_num = 2;
+    string mail_id = 3;
+}
+
+message Employee{
+    string id = 1;
+    string first_name = 2;
+    string last_name = 3;
+    string role = 4;
+    Contact contact = 5;
+}
+
+message EmployeeID{
+    string id = 1;
+}
+
+service EmployeeManagement{
+    // get the Employee details by providing the employee ID
+    // Returns Status.NOT_FOUND if the ID doesn't match any Employee
+    rpc getEmployee(EmployeeID) returns (Employee);
+
+    // List all the employees. It taks empty request type
+    rpc listEmployees(google.protobuf.Empty) returns (stream Employee);
+    
+    // Create an emplyee by providing the Employee Details and returns the Employee ID
+    // Returns Status.INTERNAL if the Employee is not able to create
+    rpc setEmployee(Employee) returns (EmployeeID);
+
+    // Update an Employee by providing all the inforation again and returns empty
+    // Returns Status.NOT_FOUND if the ID doesn't match any Employee
+    // Returns Status.INTERNAL if the Employee is not able to update
+    rpc updateEmployee(Employee) returns (google.protobuf.Empty);
+
+    // Delete the Employee by providing the Employee ID and empty response is returned
+    // Returns Status.NOT_FOUND if the ID doesn't match any Employee
+    // Returns Status.INTERNAL if the Employee is not able to delete
+    rpc deleteEmployee(EmployeeID) returns (google.protobuf.Empty);
+}
