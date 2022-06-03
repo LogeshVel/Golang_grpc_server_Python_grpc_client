@@ -19,6 +19,15 @@ Package or Lib Requirements:
         $ go get -u google.golang.org/grpc
         $ go get -u google.golang.org/protobuf
 
-Usage:
+### Usage:
+
+Add the Project's root dir path to the GOPATH and PYTHONPATH and for PYTHONAPTH need to add one more path for pb files. /path/to/Golang_grpc_server_Python_grpc_client/python_client/python_pb_files
 
 Run the Golang Server and then run the Python Client.
+
+### GOPATH and PYTHONPATH
+
+Placed all the compiled Go pb file under src directory and then added the Projects root directory in the GOPATH and turned off the GO111MODULE.
+
+For PYTHONPATH add the Project's root dir path and the /path/to/Golang_grpc_server_Python_grpc_client/python_client/python_pb_files
+

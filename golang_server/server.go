@@ -76,8 +76,19 @@ func (s *Server) GetEmployee(ctx context.Context, empID *pb.EmployeeID) (*pb.Emp
 
 func (s *Server) SetEmployee(ctx context.Context, emp *pb.Employee) (*pb.EmployeeID, error) {
 	log.Println("Hitted SetEmployee with the emp ID", emp.Id)
+	log.Println("Checking whether the given emp id is already there")
+	for _, e := range employeeList {
+		if e.Id == emp.Id {
+			log.Println("The Given employee ID already present. So skipping the create process")
+			return nil, status.Errorf(
+				codes.AlreadyExists,
+				"Given employee ID already exists. use UpdateEmployee to update",
+			)
+		}
+	}
 	employeeList = append(employeeList, emp)
 	empID := pb.EmployeeID{Id: string(emp.Id)}
+	log.Println("Data not present. Succesfully created.")
 	return &empID, nil
 
 }
@@ -92,18 +103,28 @@ func (s *Server) ListEmployees(emt *emptypb.Empty, stream pb.EmployeeManagement_
 
 func (s *Server) UpdateEmployee(ctx context.Context, emp *pb.Employee) (*emptypb.Empty, error) {
 	log.Println("Hitted UpdateEmployee to update the employee ID", emp.Id)
+	updated := false
 	for i, e := range employeeList {
 		if e.Id == emp.Id {
 			employeeList[i] = emp
 			log.Println("Updated employee\n", emp)
+			updated = true
 			break
 		}
 	}
-	return &emptypb.Empty{}, nil
+	if updated {
+		return &emptypb.Empty{}, nil
+	}
+	log.Println("Employee not found to update")
+	return nil, status.Errorf(
+		codes.NotFound,
+		"Given employee ID is not found to update",
+	)
 }
 
 func (s *Server) DeleteEmployee(ctx context.Context, empID *pb.EmployeeID) (*emptypb.Empty, error) {
 	log.Println("Hitted DeleteEmployee to Delete the emp ", empID)
+	deleted := false
 	for i, e := range employeeList {
 		if e.Id == empID.Id {
 			// slicing won't raise Index out of range error.
@@ -112,8 +133,16 @@ func (s *Server) DeleteEmployee(ctx context.Context, empID *pb.EmployeeID) (*emp
 			employeeList = append(employeeList[:i], employeeList[i+1:]...)
 			log.Println("Deleted the Employee")
 			fmt.Println(employeeList)
+			deleted = true
 			break
 		}
 	}
-	return &emptypb.Empty{}, nil
+	if deleted {
+		return &emptypb.Empty{}, nil
+	}
+	log.Println("Employee not found to delete")
+	return nil, status.Errorf(
+		codes.NotFound,
+		"Given employee ID is not found to delete",
+	)
 }
