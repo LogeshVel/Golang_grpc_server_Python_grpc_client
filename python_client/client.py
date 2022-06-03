@@ -13,9 +13,10 @@ log.info(f"Connected to the Server : {socket}")
 
 
 def call_get_employee(emp_id : str):
-    log.info("Calling GetEmployee")
+    log.info(f"Calling GetEmployee with the employee id {emp_id}")
     try:
         res = client.getEmployee(emp_pb.EmployeeID(id=emp_id))
+        log.info("Response")
         log.info(res)
     except grpc.RpcError as e:
         log.error(f"Errored while getting the employee of ID {emp_id}")
@@ -23,7 +24,7 @@ def call_get_employee(emp_id : str):
 
 
 def call_create_employee(emp_id: str, first_name: str, last_name: str, role: str, home_addrs: str, mob_numbr: str, mailid : str):
-    log.info("Creating employee")
+    log.info(f"Creating employee with the employee id {emp_id}")
 
     req_pb = emp_pb.Employee(
         id=emp_id,
@@ -48,7 +49,7 @@ def call_list_employee():
 
 
 def call_update_employee(emp_id: str, first_name: str, last_name: str, role: str, home_addrs: str, mob_numbr: str, mailid : str):
-    log.info("Calling updateEmployee")
+    log.info(f"Calling updateEmployee with the employee id {emp_id}")
     req_pb = emp_pb.Employee(
         id=emp_id,
         first_name=first_name,
@@ -64,7 +65,7 @@ def call_update_employee(emp_id: str, first_name: str, last_name: str, role: str
         log.error(e)
 
 def call_delete_employee(emp_id: str):
-    log.info("Calling deleteEmployee")
+    log.info(f"Calling deleteEmployee with the employee id {emp_id}")
     try:
         client.deleteEmployee(emp_pb.EmployeeID(id=emp_id))
         log.info(f"Successfully deleted the employee of id {emp_id}")

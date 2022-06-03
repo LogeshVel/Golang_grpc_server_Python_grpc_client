@@ -29,5 +29,5 @@ Run the Golang Server and then run the Python Client.
 
 Placed all the compiled Go pb file under src directory and then added the Projects root directory in the GOPATH and turned off the GO111MODULE.
 
-For PYTHONPATH add the Project's root dir path and the /path/to/Golang_grpc_server_Python_grpc_client/python_client/python_pb_files
+For PYTHONPATH add the Project's root dir path and the _/path/to/Golang\_grpc\_server\_Python\_grpc\_client/python\_client/python\_pb\_files_
 

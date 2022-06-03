@@ -32,6 +32,7 @@ service EmployeeManagement{
     
     // Create an emplyee by providing the Employee Details and returns the Employee ID
     // Returns Status.INTERNAL if the Employee is not able to create
+    // Reutrns Status.AlreadyExists if the id already exists
     rpc setEmployee(Employee) returns (EmployeeID);
 
     // Update an Employee by providing all the inforation again and returns empty
