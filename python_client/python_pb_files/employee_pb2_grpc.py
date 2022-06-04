@@ -35,6 +35,11 @@ class EmployeeManagementStub(object):
                 request_serializer=employee__pb2.Employee.SerializeToString,
                 response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
                 )
+        self.partialUpdate = channel.unary_unary(
+                '/EmployeeManagement/partialUpdate',
+                request_serializer=employee__pb2.UpdateEmpRequest.SerializeToString,
+                response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                )
         self.deleteEmployee = channel.unary_unary(
                 '/EmployeeManagement/deleteEmployee',
                 request_serializer=employee__pb2.EmployeeID.SerializeToString,
@@ -63,6 +68,7 @@ class EmployeeManagementServicer(object):
     def setEmployee(self, request, context):
         """Create an emplyee by providing the Employee Details and returns the Employee ID
         Returns Status.INTERNAL if the Employee is not able to create
+        Reutrns Status.AlreadyExists if the id already exists
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -72,6 +78,14 @@ class EmployeeManagementServicer(object):
         """Update an Employee by providing all the inforation again and returns empty
         Returns Status.NOT_FOUND if the ID doesn't match any Employee
         Returns Status.INTERNAL if the Employee is not able to update
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def partialUpdate(self, request, context):
+        """Updates only the field we mention while calling this RPC
+        Returns Status.NOT_FOUND if the ID doesn't match any Employee
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -107,6 +121,11 @@ def add_EmployeeManagementServicer_to_server(servicer, server):
             'updateEmployee': grpc.unary_unary_rpc_method_handler(
                     servicer.updateEmployee,
                     request_deserializer=employee__pb2.Employee.FromString,
+                    response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ),
+            'partialUpdate': grpc.unary_unary_rpc_method_handler(
+                    servicer.partialUpdate,
+                    request_deserializer=employee__pb2.UpdateEmpRequest.FromString,
                     response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
             ),
             'deleteEmployee': grpc.unary_unary_rpc_method_handler(
@@ -188,6 +207,23 @@ class EmployeeManagement(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/EmployeeManagement/updateEmployee',
             employee__pb2.Employee.SerializeToString,
+            google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def partialUpdate(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/EmployeeManagement/partialUpdate',
+            employee__pb2.UpdateEmpRequest.SerializeToString,
             google_dot_protobuf_dot_empty__pb2.Empty.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

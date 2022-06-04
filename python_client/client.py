@@ -1,6 +1,7 @@
 from python_client.python_pb_files import employee_pb2 as emp_pb
 from python_client.python_pb_files import employee_pb2_grpc as emp_grpc
 from google.protobuf import empty_pb2
+from google.protobuf import field_mask_pb2
 import logging
 import grpc
 logging.basicConfig(format='%(asctime)s:%(name)s : %(message)s', level=logging.DEBUG)
@@ -72,6 +73,18 @@ def call_delete_employee(emp_id: str):
     except grpc.RpcError as e:
         log.error(f"Errored while deleting the employee of ID {emp_id}")
         log.error(e)
+
+def call_partial_update_employee(request_pb, mask_path_list: list):
+    log.info(f"Calling partialUpdate with the employee id {request_pb.id}")
+    mask = field_mask_pb2.FieldMask(paths=mask_path_list)
+    # tells which fields to be updated from the given request payload
+    try:
+        client.partialUpdate(emp_pb.UpdateEmpRequest(emp=request_pb,update_mask=mask))
+        log.info("Successfully done partial update")
+    except grpc.RpcError as e:
+        log.error(f"Errored while partial updating the employee of ID")
+        log.error(e)
+
 # should return error
 call_get_employee("1")
 
@@ -104,3 +117,36 @@ call_update_employee(emp_id="2",first_name="log",last_name="esh",role="updated r
 
 # should error delete. since the emp is already deleted
 call_delete_employee(emp_id="2")
+
+# sample fields
+# emp_pb.Employee(
+#         id="1",
+#         first_name="first_name",
+#         last_name=last_name,
+#         role=role,
+#         contact=emp_pb.Contact(home_addr=home_addrs, mob_num=mob_numbr, mail_id=mailid)
+#         )
+
+call_get_employee("1")
+
+log.info("\nWorking with Partial updates\n")
+
+p_req_pb = emp_pb.Employee(
+        id="1",
+        first_name="partial update first_name",
+        )
+
+mask_list = ["emp.first_name",] # updates only the first_name
+call_partial_update_employee(p_req_pb, mask_list)
+
+call_get_employee("1")
+
+p_req_pb = emp_pb.Employee(
+        id="2",
+        contact=emp_pb.Contact(home_addr="through partialupdate")
+        )
+
+mask_list = ["emp.contact.home_addr",] # updates only the home_addr
+call_partial_update_employee(p_req_pb, mask_list)
+
+call_get_employee("1")

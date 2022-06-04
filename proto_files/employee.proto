@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
 
 option go_package = "proto/emp";
 
@@ -22,6 +23,11 @@ message EmployeeID{
     string id = 1;
 }
 
+message UpdateEmpRequest {
+    Employee emp = 1;
+    google.protobuf.FieldMask update_mask = 2;
+  }
+
 service EmployeeManagement{
     // get the Employee details by providing the employee ID
     // Returns Status.NOT_FOUND if the ID doesn't match any Employee
@@ -39,6 +45,10 @@ service EmployeeManagement{
     // Returns Status.NOT_FOUND if the ID doesn't match any Employee
     // Returns Status.INTERNAL if the Employee is not able to update
     rpc updateEmployee(Employee) returns (google.protobuf.Empty);
+
+    // Updates only the field we mention while calling this RPC
+    // Returns Status.NOT_FOUND if the ID doesn't match any Employee
+    rpc partialUpdate(UpdateEmpRequest) returns (google.protobuf.Empty);
 
     // Delete the Employee by providing the Employee ID and empty response is returned
     // Returns Status.NOT_FOUND if the ID doesn't match any Employee

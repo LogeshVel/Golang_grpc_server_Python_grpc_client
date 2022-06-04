@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v3.20.1
-// source: proto_files/employee.proto
+// source: employee.proto
 
 package emp
 
@@ -30,11 +30,15 @@ type EmployeeManagementClient interface {
 	ListEmployees(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (EmployeeManagement_ListEmployeesClient, error)
 	// Create an emplyee by providing the Employee Details and returns the Employee ID
 	// Returns Status.INTERNAL if the Employee is not able to create
+	// Reutrns Status.AlreadyExists if the id already exists
 	SetEmployee(ctx context.Context, in *Employee, opts ...grpc.CallOption) (*EmployeeID, error)
 	// Update an Employee by providing all the inforation again and returns empty
 	// Returns Status.NOT_FOUND if the ID doesn't match any Employee
 	// Returns Status.INTERNAL if the Employee is not able to update
 	UpdateEmployee(ctx context.Context, in *Employee, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// Updates only the field we mention while calling this RPC
+	// Returns Status.NOT_FOUND if the ID doesn't match any Employee
+	PartialUpdate(ctx context.Context, in *UpdateEmpRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// Delete the Employee by providing the Employee ID and empty response is returned
 	// Returns Status.NOT_FOUND if the ID doesn't match any Employee
 	// Returns Status.INTERNAL if the Employee is not able to delete
@@ -108,6 +112,15 @@ func (c *employeeManagementClient) UpdateEmployee(ctx context.Context, in *Emplo
 	return out, nil
 }
 
+func (c *employeeManagementClient) PartialUpdate(ctx context.Context, in *UpdateEmpRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/EmployeeManagement/partialUpdate", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *employeeManagementClient) DeleteEmployee(ctx context.Context, in *EmployeeID, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/EmployeeManagement/deleteEmployee", in, out, opts...)
@@ -128,11 +141,15 @@ type EmployeeManagementServer interface {
 	ListEmployees(*emptypb.Empty, EmployeeManagement_ListEmployeesServer) error
 	// Create an emplyee by providing the Employee Details and returns the Employee ID
 	// Returns Status.INTERNAL if the Employee is not able to create
+	// Reutrns Status.AlreadyExists if the id already exists
 	SetEmployee(context.Context, *Employee) (*EmployeeID, error)
 	// Update an Employee by providing all the inforation again and returns empty
 	// Returns Status.NOT_FOUND if the ID doesn't match any Employee
 	// Returns Status.INTERNAL if the Employee is not able to update
 	UpdateEmployee(context.Context, *Employee) (*emptypb.Empty, error)
+	// Updates only the field we mention while calling this RPC
+	// Returns Status.NOT_FOUND if the ID doesn't match any Employee
+	PartialUpdate(context.Context, *UpdateEmpRequest) (*emptypb.Empty, error)
 	// Delete the Employee by providing the Employee ID and empty response is returned
 	// Returns Status.NOT_FOUND if the ID doesn't match any Employee
 	// Returns Status.INTERNAL if the Employee is not able to delete
@@ -155,6 +172,9 @@ func (UnimplementedEmployeeManagementServer) SetEmployee(context.Context, *Emplo
 }
 func (UnimplementedEmployeeManagementServer) UpdateEmployee(context.Context, *Employee) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateEmployee not implemented")
+}
+func (UnimplementedEmployeeManagementServer) PartialUpdate(context.Context, *UpdateEmpRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PartialUpdate not implemented")
 }
 func (UnimplementedEmployeeManagementServer) DeleteEmployee(context.Context, *EmployeeID) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteEmployee not implemented")
@@ -247,6 +267,24 @@ func _EmployeeManagement_UpdateEmployee_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _EmployeeManagement_PartialUpdate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateEmpRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EmployeeManagementServer).PartialUpdate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/EmployeeManagement/partialUpdate",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EmployeeManagementServer).PartialUpdate(ctx, req.(*UpdateEmpRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _EmployeeManagement_DeleteEmployee_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(EmployeeID)
 	if err := dec(in); err != nil {
@@ -285,6 +323,10 @@ var EmployeeManagement_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _EmployeeManagement_UpdateEmployee_Handler,
 		},
 		{
+			MethodName: "partialUpdate",
+			Handler:    _EmployeeManagement_PartialUpdate_Handler,
+		},
+		{
 			MethodName: "deleteEmployee",
 			Handler:    _EmployeeManagement_DeleteEmployee_Handler,
 		},
@@ -296,5 +338,5 @@ var EmployeeManagement_ServiceDesc = grpc.ServiceDesc{
 			ServerStreams: true,
 		},
 	},
-	Metadata: "proto_files/employee.proto",
+	Metadata: "employee.proto",
 }
