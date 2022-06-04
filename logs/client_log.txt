@@ -1,0 +1,166 @@
+$ python client.py
+2022-06-04 21:41:57,016:__main__ : Connected to the Server : localhost:50051
+2022-06-04 21:41:57,016:__main__ : Calling GetEmployee with the employee id 1
+2022-06-04 21:41:59,047:__main__ : Errored while getting the employee of ID 1
+2022-06-04 21:41:59,047:__main__ : <_InactiveRpcError of RPC that terminated with:
+        status = StatusCode.NOT_FOUND
+        details = "Given employee ID is not found"
+        debug_error_string = "{"created":"@1654359119.047000000","description":"Error received from peer ipv4:127.0.0.1:50051","file":"src/core/lib/surface/call.cc","file_line":953,"grpc_message":"Given employee ID is not found","grpc_status":5}"
+>
+2022-06-04 21:41:59,047:__main__ : Creating employee with the employee id 1
+2022-06-04 21:41:59,048:__main__ : Successfully created the Employee with the ID 1
+2022-06-04 21:41:59,048:__main__ : Calling GetEmployee with the employee id 1
+2022-06-04 21:41:59,049:__main__ : Response
+2022-06-04 21:41:59,049:__main__ : id: "1"
+first_name: "Logesh"
+last_name: "Vel"
+role: "ASE"
+contact {
+  home_addr: "Some addr"
+  mob_num: "123456"
+  mail_id: "some@domain.com"
+}
+
+2022-06-04 21:41:59,049:__main__ : Creating employee with the employee id 2
+2022-06-04 21:41:59,050:__main__ : Successfully created the Employee with the ID 2
+2022-06-04 21:41:59,050:__main__ : Calling ListEmployee
+2022-06-04 21:41:59,051:__main__ : ListEmployee Results
+2022-06-04 21:41:59,051:__main__ : id: "1"
+first_name: "Logesh"
+last_name: "Vel"
+role: "ASE"
+contact {
+  home_addr: "Some addr"
+  mob_num: "123456"
+  mail_id: "some@domain.com"
+}
+
+2022-06-04 21:41:59,052:__main__ : id: "2"
+first_name: "log"
+last_name: "esh"
+role: "SSE"
+contact {
+  home_addr: "address"
+  mob_num: "98765"
+  mail_id: "sse@domain.com"
+}
+
+2022-06-04 21:41:59,052:__main__ : Creating employee with the employee id 2
+2022-06-04 21:41:59,052:__main__ : Errored while creating the employye of ID 2
+2022-06-04 21:41:59,052:__main__ : <_InactiveRpcError of RPC that terminated with:
+        status = StatusCode.ALREADY_EXISTS
+        details = "Given employee ID already exists. use UpdateEmployee to update"
+        debug_error_string = "{"created":"@1654359119.052000000","description":"Error received from peer ipv4:127.0.0.1:50051","file":"src/core/lib/surface/call.cc","file_line":953,"grpc_message":"Given employee ID already exists. use UpdateEmployee to update","grpc_status":6}"
+>
+2022-06-04 21:41:59,052:__main__ : Calling updateEmployee with the employee id 2
+2022-06-04 21:41:59,053:__main__ : Successfully updated
+2022-06-04 21:41:59,053:__main__ : Calling ListEmployee
+2022-06-04 21:41:59,053:__main__ : ListEmployee Results
+2022-06-04 21:41:59,054:__main__ : id: "1"
+first_name: "Logesh"
+last_name: "Vel"
+role: "ASE"
+contact {
+  home_addr: "Some addr"
+  mob_num: "123456"
+  mail_id: "some@domain.com"
+}
+
+2022-06-04 21:41:59,054:__main__ : id: "2"
+first_name: "log"
+last_name: "esh"
+role: "updated role Engineer"
+contact {
+  home_addr: "address"
+  mob_num: "98765"
+  mail_id: "sse@domain.com"
+}
+
+2022-06-04 21:41:59,054:__main__ : Calling deleteEmployee with the employee id 2
+2022-06-04 21:41:59,055:__main__ : Successfully deleted the employee of id 2
+2022-06-04 21:41:59,055:__main__ : Calling updateEmployee with the employee id 2
+2022-06-04 21:41:59,055:__main__ : Errored while updating the employee of ID 2
+2022-06-04 21:41:59,055:__main__ : <_InactiveRpcError of RPC that terminated with:
+        status = StatusCode.NOT_FOUND
+        details = "Given employee ID not found to update"
+        debug_error_string = "{"created":"@1654359119.055000000","description":"Error received from peer ipv4:127.0.0.1:50051","file":"src/core/lib/surface/call.cc","file_line":953,"grpc_message":"Given employee ID not found to update","grpc_status":5}"
+>
+2022-06-04 21:41:59,055:__main__ : Calling deleteEmployee with the employee id 2
+2022-06-04 21:41:59,056:__main__ : Errored while deleting the employee of ID 2
+2022-06-04 21:41:59,056:__main__ : <_InactiveRpcError of RPC that terminated with:
+        status = StatusCode.NOT_FOUND
+        details = "Given employee ID is not found to delete"
+        debug_error_string = "{"created":"@1654359119.056000000","description":"Error received from peer ipv4:127.0.0.1:50051","file":"src/core/lib/surface/call.cc","file_line":953,"grpc_message":"Given employee ID is not found to delete","grpc_status":5}"
+>
+2022-06-04 21:41:59,056:__main__ : Calling GetEmployee with the employee id 1
+2022-06-04 21:41:59,056:__main__ : Response
+2022-06-04 21:41:59,056:__main__ : id: "1"
+first_name: "Logesh"
+last_name: "Vel"
+role: "ASE"
+contact {
+  home_addr: "Some addr"
+  mob_num: "123456"
+  mail_id: "some@domain.com"
+}
+
+2022-06-04 21:41:59,056:__main__ :
+Working with Partial updates
+
+2022-06-04 21:41:59,056:__main__ : Calling partialUpdate with the employee id 1
+2022-06-04 21:41:59,056:__main__ : Request message id: "1"
+first_name: "partial update first_name"
+
+2022-06-04 21:41:59,056:__main__ : Fieldmask Paths list ['emp.first_name']
+2022-06-04 21:41:59,057:__main__ : Successfully done partial update
+2022-06-04 21:41:59,057:__main__ : Calling GetEmployee with the employee id 1
+2022-06-04 21:41:59,057:__main__ : Response
+2022-06-04 21:41:59,057:__main__ : id: "1"
+first_name: "partial update first_name"
+last_name: "Vel"
+role: "ASE"
+contact {
+  home_addr: "Some addr"
+  mob_num: "123456"
+  mail_id: "some@domain.com"
+}
+
+2022-06-04 21:41:59,057:__main__ : Calling partialUpdate with the employee id 1
+2022-06-04 21:41:59,057:__main__ : Request message id: "1"
+contact {
+  home_addr: "through partialupdate"
+}
+
+2022-06-04 21:41:59,057:__main__ : Fieldmask Paths list ['emp.contact.home_addr']
+2022-06-04 21:41:59,058:__main__ : Successfully done partial update
+2022-06-04 21:41:59,058:__main__ : Calling GetEmployee with the employee id 1
+2022-06-04 21:41:59,059:__main__ : Response
+2022-06-04 21:41:59,059:__main__ : id: "1"
+first_name: "partial update first_name"
+last_name: "Vel"
+role: "ASE"
+contact {
+  home_addr: "through partialupdate"
+  mob_num: "123456"
+  mail_id: "some@domain.com"
+}
+
+2022-06-04 21:41:59,059:__main__ : Calling partialUpdate with the employee id 1
+2022-06-04 21:41:59,059:__main__ : Request message id: "1"
+contact {
+  mob_num: "mob number update"
+}
+
+2022-06-04 21:41:59,059:__main__ : Fieldmask Paths list ['emp.contact.home_addr']
+2022-06-04 21:41:59,059:__main__ : Successfully done partial update
+2022-06-04 21:41:59,059:__main__ : Calling GetEmployee with the employee id 1
+2022-06-04 21:41:59,060:__main__ : Response
+2022-06-04 21:41:59,060:__main__ : id: "1"
+first_name: "partial update first_name"
+last_name: "Vel"
+role: "ASE"
+contact {
+  mob_num: "123456"
+  mail_id: "some@domain.com"
+}
+

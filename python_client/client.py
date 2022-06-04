@@ -76,6 +76,8 @@ def call_delete_employee(emp_id: str):
 
 def call_partial_update_employee(request_pb, mask_path_list: list):
     log.info(f"Calling partialUpdate with the employee id {request_pb.id}")
+    log.info(f"Request message {request_pb}")
+    log.info(f"Fieldmask Paths list {mask_path_list}")
     mask = field_mask_pb2.FieldMask(paths=mask_path_list)
     # tells which fields to be updated from the given request payload
     try:
@@ -157,6 +159,8 @@ call_get_employee("1")
 # in the path field I have specified the mob_num field but accidently specified the home_addr field
 # What will happen is the home_addr field is set to the zero value of its type 
 # as we specified to change the home_addr in path but we haven't given that field in the request msg.
+# We can neglect this type of accidental updates by implementing the server in the protper way.
+# Like making the client to check whether the field specified in the path list is present in the request msg before updating
 p_req_pb = emp_pb.Employee(
         id="1",
         contact=emp_pb.Contact(mob_num="mob number update")

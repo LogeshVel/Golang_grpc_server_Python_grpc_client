@@ -141,6 +141,7 @@ func (s *Server) DeleteEmployee(ctx context.Context, empID *pb.EmployeeID) (*emp
 
 func (s *Server) PartialUpdate(ctx context.Context, req *pb.UpdateEmpRequest) (*emptypb.Empty, error) {
 	log.Println("Hitted PartialUpdate to update the emp ", req.Emp.GetId())
+	log.Printf("Given request message\n%v", req)
 	var matchEmp *pb.Employee
 	for _, e := range employeeList {
 		if e.Id == req.Emp.GetId() {

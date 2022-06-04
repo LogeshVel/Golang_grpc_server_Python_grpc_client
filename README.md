@@ -31,3 +31,5 @@ Placed all the compiled Go pb file under src directory and then added the Projec
 
 For PYTHONPATH add the Project's root dir path and the _/path/to/Golang\_grpc\_server\_Python\_grpc\_client/python\_client/python\_pb\_files_
 
+
+Checkout my Medium Article on gRPC - Golang Server and Python Client (will publish soon)

@@ -1,0 +1,45 @@
+$ go run main_server.go
+2022/06/04 21:41:52 Listening at  localhost:50051
+2022/06/04 21:41:59 Hitted GetEmployee with the employee ID 1
+2022/06/04 21:41:59 Hitted SetEmployee with the emp ID 1
+2022/06/04 21:41:59 Checking whether the given emp id is already there
+2022/06/04 21:41:59 Given employee ID doesn't exists. Succesfully created.
+2022/06/04 21:41:59 Hitted GetEmployee with the employee ID 1
+2022/06/04 21:41:59 Hitted SetEmployee with the emp ID 2
+2022/06/04 21:41:59 Checking whether the given emp id is already there
+2022/06/04 21:41:59 Given employee ID doesn't exists. Succesfully created.
+2022/06/04 21:41:59 Hitted ListEmployees
+2022/06/04 21:41:59 Hitted SetEmployee with the emp ID 2
+2022/06/04 21:41:59 Checking whether the given emp id is already there
+2022/06/04 21:41:59 The Given employee ID already present. So skipping the create process
+2022/06/04 21:41:59 Hitted UpdateEmployee to update the employee ID 2
+2022/06/04 21:41:59 Updated employee
+ id:"2" first_name:"log" last_name:"esh" role:"updated role Engineer" contact:{home_addr:"address" mob_num:"98765" mail_id:"sse@domain.com"}
+2022/06/04 21:41:59 Hitted ListEmployees
+2022/06/04 21:41:59 Hitted DeleteEmployee to Delete the emp  id:"2"
+2022/06/04 21:41:59 Deleted the Employee
+[id:"1" first_name:"Logesh" last_name:"Vel" role:"ASE" contact:{home_addr:"Some addr" mob_num:"123456" mail_id:"some@domain.com"}]
+2022/06/04 21:41:59 Hitted UpdateEmployee to update the employee ID 2
+2022/06/04 21:41:59 Employee not found to update
+2022/06/04 21:41:59 Hitted DeleteEmployee to Delete the emp  id:"2"
+2022/06/04 21:41:59 Employee not found to delete
+2022/06/04 21:41:59 Hitted GetEmployee with the employee ID 1
+2022/06/04 21:41:59 Hitted PartialUpdate to update the emp  1
+2022/06/04 21:41:59 Given request message
+emp:{id:"1" first_name:"partial update first_name"} update_mask:{paths:"emp.first_name"}
+2022/06/04 21:41:59 Requested to update "emp.first_name"
+2022/06/04 21:41:59 Partial Update done
+2022/06/04 21:41:59 Hitted GetEmployee with the employee ID 1
+2022/06/04 21:41:59 Hitted PartialUpdate to update the emp  1
+2022/06/04 21:41:59 Given request message
+emp:{id:"1" contact:{home_addr:"through partialupdate"}} update_mask:{paths:"emp.contact.home_addr"}
+2022/06/04 21:41:59 Requested to update "emp.contact.home_addr"
+2022/06/04 21:41:59 Partial Update done
+2022/06/04 21:41:59 Hitted GetEmployee with the employee ID 1
+2022/06/04 21:41:59 Hitted PartialUpdate to update the emp  1
+2022/06/04 21:41:59 Given request message
+emp:{id:"1" contact:{mob_num:"mob number update"}} update_mask:{paths:"emp.contact.home_addr"}
+2022/06/04 21:41:59 Requested to update "emp.contact.home_addr"
+2022/06/04 21:41:59 Partial Update done
+2022/06/04 21:41:59 Hitted GetEmployee with the employee ID 1
+
