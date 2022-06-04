@@ -142,8 +142,24 @@ call_partial_update_employee(p_req_pb, mask_list)
 call_get_employee("1")
 
 p_req_pb = emp_pb.Employee(
-        id="2",
+        id="1",
         contact=emp_pb.Contact(home_addr="through partialupdate")
+        )
+
+mask_list = ["emp.contact.home_addr",] # updates only the home_addr
+call_partial_update_employee(p_req_pb, mask_list)
+
+call_get_employee("1")
+
+# calling partialUpdate with the request message and paths
+# where the paths gives the fields to update that doesn't exists in the request msg
+# Ex: I tried to update the mob_num field, I have provided that in the request message but
+# in the path field I have specified the mob_num field but accidently specified the home_addr field
+# What will happen is the home_addr field is set to the zero value of its type 
+# as we specified to change the home_addr in path but we haven't given that field in the request msg.
+p_req_pb = emp_pb.Employee(
+        id="1",
+        contact=emp_pb.Contact(mob_num="mob number update")
         )
 
 mask_list = ["emp.contact.home_addr",] # updates only the home_addr
