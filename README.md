@@ -33,3 +33,9 @@ For PYTHONPATH add the Project's root dir path and the _/path/to/Golang\_grpc\_s
 
 
 Checkout my Medium Article on gRPC - Golang Server and Python Client (will publish soon)
+
+### Extension of this project
+
+In this project we have Golang gRPC Server and the Python gRPC Client. 
+
+This repo ([gRPC Server - gRPC client and REST client](https://github.com/LogeshVel/grpc_server_grpc_and_REST_client)) has the gRPC server that serves the gRPC and REST Clients.
